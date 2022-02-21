@@ -1,0 +1,4 @@
+https://www.khan.co.kr/rss/rssdata/economy_news.xml
+http://rss.kmib.co.kr/data/kmibEcoRss.xml
+https://rss.donga.com/economy.xml
+https://www.hani.co.kr/rss/economy/
