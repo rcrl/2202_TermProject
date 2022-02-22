@@ -11,7 +11,6 @@ import random
 import time
 #
 from website import postWriting
-from website import pngToUrl
 
 #2 URL 준비
 with open("news.txt", "r") as f:
@@ -68,19 +67,63 @@ str_meaningless = ""
 for _ in tags:
        str_meaningless += _[0]
 li = okt.nouns(str_meaningless)
-keyword_list = []
+list_keyword = []
 for x in tags:
         for y in li:
                 if( x[0] == y ):
-                        keyword_list.append(x)
+                        list_keyword.append(x)
                         break
-# print(keyword_list)
+print(list_keyword)
+
+#
+def insert_table(list_keyword):
+    with open("test.html", "r", encoding='utf-8') as f:
+        html = f.read()
+    soup = BeautifulSoup(html, 'html.parser')
+
+    if( soup.table ):
+        soup.table.extract()
+
+    new_table = soup.new_tag('table')
+    new_table["border"] = 1
+    soup.body.append(new_table)
+
+    new_tr = soup.new_tag('tr')
+    new_tr['id'] = 0
+    soup.table.append(new_tr)
+
+    new_th = soup.new_tag('th')
+    new_th.string = "키워드"
+    soup.tr.append(new_th)
+    new_th = soup.new_tag('th')
+    new_th.string = "빈도수"
+    soup.tr.append(new_th)
+
+    i = 1
+    for keyword in list_keyword:
+        new_tr = soup.new_tag('tr')
+        new_tr['id'] = i
+        soup.table.append(new_tr)
+
+        for _ in keyword:
+            new_td = soup.new_tag('td')
+            new_td.string = str(_)
+            soup.find('tr', id= f'{i}').append(new_td)
+
+        i += 1
+
+    with open("test.html", "wb") as f:
+        html = soup.prettify().encode('utf-8')
+        f.write(html)
+
+    print(soup.prettify())
+
 
 #10 워드클라우드 생성
 r = lambda: random.randint(0,255)
 color = lambda: (r(), r(), r())
 dic = []
-for n, c in keyword_list:
+for n, c in list_keyword:
         dic.append({'color': color(), 'tag': n, 'size': c * 2})
 pytagcloud.create_tag_image(dic, "wcloud.png", fontname='NanumBarunGothic')
 
@@ -88,5 +131,6 @@ pytagcloud.create_tag_image(dic, "wcloud.png", fontname='NanumBarunGothic')
 print(__name__, time.asctime())
 
 #
-postWriting.load_url()
-postWriting.post_posting()
+insert_table(list_keyword)
+# postWriting.load_url()
+# postWriting.post_posting()
