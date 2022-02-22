@@ -73,11 +73,11 @@ for x in tags:
                 if( x[0] == y ):
                         list_keyword.append(x)
                         break
-print(list_keyword)
+# print(list_keyword)
 
 #
 def insert_table(list_keyword):
-    with open("test.html", "r", encoding='utf-8') as f:
+    with open(r"C:\Users\USER\PycharmProjects\TermProject\website\postContent.html", "r", encoding='utf-8') as f:
         html = f.read()
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -112,11 +112,11 @@ def insert_table(list_keyword):
 
         i += 1
 
-    with open("test.html", "wb") as f:
+    with open(r"C:\Users\USER\PycharmProjects\TermProject\website\postContent.html", "wb") as f:
         html = soup.prettify().encode('utf-8')
         f.write(html)
 
-    print(soup.prettify())
+    # print(soup.prettify())
 
 
 #10 워드클라우드 생성
@@ -132,5 +132,5 @@ print(__name__, time.asctime())
 
 #
 insert_table(list_keyword)
-# postWriting.load_url()
-# postWriting.post_posting()
+postWriting.load_url()
+postWriting.post_posting()
